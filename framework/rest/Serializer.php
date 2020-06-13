@@ -90,6 +90,18 @@ class Serializer extends Component
      */
     public $collectionEnvelope;
     /**
+     * @var string the name of the envelope (e.g. `_links`) for returning the links objects.
+     * It takes effect only, if `collectionEnvelope` is set.
+     * @since 2.0.4
+     */
+    public $linksEnvelope = '_links';
+    /**
+     * @var string the name of the envelope (e.g. `_meta`) for returning the pagination object.
+     * It takes effect only, if `collectionEnvelope` is set.
+     * @since 2.0.4
+     */
+    public $metaEnvelope = '_meta';
+    /**
      * @var Request the current request. If not set, the `request` application component will be used.
      */
     public $request;
@@ -97,10 +109,19 @@ class Serializer extends Component
      * @var Response the response to be sent. If not set, the `response` application component will be used.
      */
     public $response;
+    /**
+     * @var bool whether to preserve array keys when serializing collection data.
+     * Set this to `true` to allow serialization of a collection as a JSON object where array keys are
+     * used to index the model objects. The default is to serialize all collections as array, regardless
+     * of how the array is indexed.
+     * @see serializeDataProvider()
+     * @since 2.0.10
+     */
+    public $preserveKeys = false;
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -116,7 +137,7 @@ class Serializer extends Component
      * Serializes the given data into a format that can be easily turned into other formats.
      * This method mainly converts the objects of recognized types into array representation.
      * It will not do conversion for unknown object types or non-object data.
-     * The default implementation will handle [[Model]] and [[DataProviderInterface]].
+     * The default implementation will handle [[Model]], [[DataProviderInterface]] and [\JsonSerializable](https://www.php.net/manual/en/class.jsonserializable.php).
      * You may override this method to support more object types.
      * @param mixed $data the data to be serialized.
      * @return mixed the converted data.
@@ -125,13 +146,21 @@ class Serializer extends Component
     {
         if ($data instanceof Model && $data->hasErrors()) {
             return $this->serializeModelErrors($data);
+        } elseif ($data instanceof \JsonSerializable) {
+            return $data->jsonSerialize();
         } elseif ($data instanceof Arrayable) {
             return $this->serializeModel($data);
         } elseif ($data instanceof DataProviderInterface) {
             return $this->serializeDataProvider($data);
-        } else {
-            return $data;
+        } elseif (is_array($data)) {
+            $serializedArray = [];
+            foreach ($data as $key => $value) {
+                $serializedArray[$key] = $this->serialize($value);
+            }
+            return $serializedArray;
         }
+
+        return $data;
     }
 
     /**
@@ -147,8 +176,8 @@ class Serializer extends Component
         $expand = $this->request->get($this->expandParam);
 
         return [
-            preg_split('/\s*,\s*/', $fields, -1, PREG_SPLIT_NO_EMPTY),
-            preg_split('/\s*,\s*/', $expand, -1, PREG_SPLIT_NO_EMPTY),
+            is_string($fields) ? preg_split('/\s*,\s*/', $fields, -1, PREG_SPLIT_NO_EMPTY) : [],
+            is_string($expand) ? preg_split('/\s*,\s*/', $expand, -1, PREG_SPLIT_NO_EMPTY) : [],
         ];
     }
 
@@ -159,7 +188,12 @@ class Serializer extends Component
      */
     protected function serializeDataProvider($dataProvider)
     {
-        $models = $this->serializeModels($dataProvider->getModels());
+        if ($this->preserveKeys) {
+            $models = $dataProvider->getModels();
+        } else {
+            $models = array_values($dataProvider->getModels());
+        }
+        $models = $this->serializeModels($models);
 
         if (($pagination = $dataProvider->getPagination()) !== false) {
             $this->addPaginationHeaders($pagination);
@@ -169,16 +203,16 @@ class Serializer extends Component
             return null;
         } elseif ($this->collectionEnvelope === null) {
             return $models;
-        } else {
-            $result = [
-                $this->collectionEnvelope => $models,
-            ];
-            if ($pagination !== false) {
-                return array_merge($result, $this->serializePagination($pagination));
-            } else {
-                return $result;
-            }
         }
+
+        $result = [
+            $this->collectionEnvelope => $models,
+        ];
+        if ($pagination !== false) {
+            return array_merge($result, $this->serializePagination($pagination));
+        }
+
+        return $result;
     }
 
     /**
@@ -190,11 +224,11 @@ class Serializer extends Component
     protected function serializePagination($pagination)
     {
         return [
-            '_links' => Link::serialize($pagination->getLinks(true)),
-            '_meta' => [
+            $this->linksEnvelope => Link::serialize($pagination->getLinks(true)),
+            $this->metaEnvelope => [
                 'totalCount' => $pagination->totalCount,
                 'pageCount' => $pagination->getPageCount(),
-                'currentPage' => $pagination->getPage(),
+                'currentPage' => $pagination->getPage() + 1,
                 'perPage' => $pagination->getPageSize(),
             ],
         ];
@@ -228,10 +262,10 @@ class Serializer extends Component
     {
         if ($this->request->getIsHead()) {
             return null;
-        } else {
-            list ($fields, $expand) = $this->getRequestedFields();
-            return $model->toArray($fields, $expand);
         }
+
+        list($fields, $expand) = $this->getRequestedFields();
+        return $model->toArray($fields, $expand);
     }
 
     /**
@@ -260,7 +294,7 @@ class Serializer extends Component
      */
     protected function serializeModels(array $models)
     {
-        list ($fields, $expand) = $this->getRequestedFields();
+        list($fields, $expand) = $this->getRequestedFields();
         foreach ($models as $i => $model) {
             if ($model instanceof Arrayable) {
                 $models[$i] = $model->toArray($fields, $expand);

@@ -1,25 +1,25 @@
 Class Autoloading
 =================
 
-Yii relies on the [class autoloading mechanism](http://www.php.net/manual/en/language.oop5.autoload.php)
-to locate and include all required class files. It provides a high-performance class autoloader that is compliant to the
-[PSR-4 standard](https://github.com/php-fig/fig-standards/blob/master/proposed/psr-4-autoloader/psr-4-autoloader.md).
+Yii relies on the [class autoloading mechanism](https://secure.php.net/manual/en/language.oop5.autoload.php)
+to locate and include all required class files. It provides a high-performance class autoloader that is compliant with the
+[PSR-4 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md).
 The autoloader is installed when you include the `Yii.php` file.
 
 > Note: For simplicity of description, in this section we will only talk about autoloading of classes. However, keep in
   mind that the content we are describing here applies to autoloading of interfaces and traits as well.
 
 
-Using the Yii Autoloader <a name="using-yii-autoloader"></a>
+Using the Yii Autoloader <span id="using-yii-autoloader"></span>
 ------------------------
 
 To make use of the Yii class autoloader, you should follow two simple rules when creating and naming your classes:
 
-* Each class must be under a namespace (e.g. `foo\bar\MyClass`)
+* Each class must be under a [namespace](https://secure.php.net/manual/en/language.namespaces.php) (e.g. `foo\bar\MyClass`)
 * Each class must be saved in an individual file whose path is determined by the following algorithm:
 
 ```php
-// $className is a fully qualified class name with the leading backslash
+// $className is a fully qualified class name without the leading backslash
 $classFile = Yii::getAlias('@' . str_replace('\\', '/', $className) . '.php');
 ```
 
@@ -27,23 +27,25 @@ For example, if a class name and namespace is `foo\bar\MyClass`, the [alias](con
 would be `@foo/bar/MyClass.php`. In order for this alias to be resolvable into a file path,
 either `@foo` or `@foo/bar` must be a [root alias](concept-aliases.md#defining-aliases).
 
-When using the [Basic Application Template](start-basic.md), you may put your classes under the top-level
+When using the [Basic Project Template](start-installation.md), you may put your classes under the top-level
 namespace `app` so that they can be autoloaded by Yii without the need of defining a new alias. This is because
 `@app` is a [predefined alias](concept-aliases.md#predefined-aliases), and a class name like `app\components\MyClass`
 can be resolved into the class file `AppBasePath/components/MyClass.php`, according to the algorithm just described.
 
-In the [Advanced Application Template](tutorial-advanced-app.md), each tier has its own root alias. For example,
-the front-end tier has a root alias `@frontend`, while the back-end tier `@backend`. As a result, you may
-put the front-end classes under the namespace `frontend` while the back-end classes are under `backend`. This will
+In the [Advanced Project Template](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/README.md), each tier has its own root alias. For example,
+the front-end tier has a root alias `@frontend`, while the back-end tier root alias is `@backend`. As a result,
+you may put the front-end classes under the namespace `frontend` while the back-end classes are under `backend`. This will
 allow these classes to be autoloaded by the Yii autoloader.
 
+To add a custom namespace to the autoloader you need to define an alias for the base directory of the namespace using [[Yii::setAlias()]].
+For example to load classes in the `foo` namespace that are located in the `path/to/foo` directory you will call `Yii::setAlias('@foo', 'path/to/foo')`.
 
-Class Map <a name="class-map"></a>
+Class Map <span id="class-map"></span>
 ---------
 
 The Yii class autoloader supports the *class map* feature, which maps class names to the corresponding class file paths.
 When the autoloader is loading a class, it will first check if the class is found in the map. If so, the corresponding
-file path will be included directly without further check. This makes class autoloading super fast. In fact,
+file path will be included directly without further checks. This makes class autoloading super fast. In fact,
 all core Yii classes are autoloaded this way.
 
 You may add a class to the class map, stored in `Yii::$classMap`, using:
@@ -56,7 +58,7 @@ Yii::$classMap['foo\bar\MyClass'] = 'path/to/MyClass.php';
 [bootstrapping](runtime-bootstrapping.md) process so that the map is ready before your classes are used.
 
 
-Using Other Autoloaders <a name="using-other-autoloaders"></a>
+Using Other Autoloaders <span id="using-other-autoloaders"></span>
 -----------------------
 
 Because Yii embraces Composer as a package dependency manager, it is recommended that you also install
@@ -66,12 +68,12 @@ also install those.
 When using the Yii autoloader together with other autoloaders, you should include the `Yii.php` file
 *after* all other autoloaders are installed. This will make the Yii autoloader the first one responding to
 any class autoloading request. For example, the following code is extracted from
-the [entry script](structure-entry-scripts.md) of the [Basic Application Template](start-basic.md). The first
+the [entry script](structure-entry-scripts.md) of the [Basic Project Template](start-installation.md). The first
 line installs the Composer autoloader, while the second line installs the Yii autoloader:
 
 ```php
-require(__DIR__ . '/../vendor/autoload.php');
-require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 ```
 
 You may use the Composer autoloader alone without the Yii autoloader. However, by doing so, the performance
@@ -82,7 +84,7 @@ to be autoloadable.
   and include it in your [entry script](structure-entry-scripts.md).
 
 
-Autoloading Extension Classes <a name="autoloading-extension-classes"></a>
+Autoloading Extension Classes <span id="autoloading-extension-classes"></span>
 -----------------------------
 
 The Yii autoloader is capable of autoloading [extension](structure-extensions.md) classes. The sole requirement

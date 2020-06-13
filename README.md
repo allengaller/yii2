@@ -1,83 +1,100 @@
-Yii PHP Framework Version 2
-===========================
+<p align="center">
+    <a href="https://www.yiiframework.com/" target="_blank">
+        <img src="https://www.yiiframework.com/files/logo/yii.png" width="400" alt="Yii Framework" />
+    </a>
+</p>
 
-Thank you for choosing Yii 2 - a modern PHP framework designed for professional Web development.
+Yii 2 is a modern framework designed to be a solid foundation for your PHP application.
 
-Yii 2 is a complete rewrite of its previous version Yii 1.1 which is one of the most popular PHP frameworks.
-Yii 2 inherits the main spirit behind Yii for being simple, fast and highly extensible.
-Yii 2 requires PHP 5.4 and embraces the best practices and protocols found in modern Web application development.
+It is fast, secure and efficient and works right out of the box pre-configured with reasonable defaults.
+The framework is easy to adjust to meet your needs, because Yii has been designed to be flexible.
 
-
-**Yii 2 is not ready for production use yet.** We may make significant changes without prior notices.
-We expect to make the first stable release of Yii 2 in the middle of 2014.
-
-If you mainly want to learn Yii with no real project development requirement, we highly recommend
-you start with Yii 2 as it will be our main focus for the next few years.
-
-If you have a real project with tight schedule, you should stick to [Yii 1.1](https://github.com/yiisoft/yii)
-which is the latest stable release of Yii.
-
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2/v/stable.png)](https://packagist.org/packages/yiisoft/yii2)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2/downloads.png)](https://packagist.org/packages/yiisoft/yii2)
-[![Dependency Status](https://www.versioneye.com/php/yiisoft:yii2/dev-master/badge.png)](https://www.versioneye.com/php/yiisoft:yii2/dev-master)
-[![Build Status](https://secure.travis-ci.org/yiisoft/yii2.png)](http://travis-ci.org/yiisoft/yii2)
-[![HHVM Status](http://hhvm.h4cc.de/badge/yiisoft/yii2-dev.png)](http://hhvm.h4cc.de/package/yiisoft/yii2-dev)  
+[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2.svg)](https://packagist.org/packages/yiisoft/yii2)
+[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2.svg)](https://packagist.org/packages/yiisoft/yii2)
+[![Build Status](https://github.com/yiisoft/yii2/workflows/build/badge.svg)](https://github.com/yiisoft/yii2/actions)
 [![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/yii2/badges/coverage.png?s=31d80f1036099e9d6a3e4d7738f6b000b3c3d10e)](https://scrutinizer-ci.com/g/yiisoft/yii2/)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/yiisoft/yii2/badges/quality-score.png?s=b1074a1ff6d0b214d54fa5ab7abbb90fc092471d)](https://scrutinizer-ci.com/g/yiisoft/yii2/)
-[![Code Climate](https://codeclimate.com/github/yiisoft/yii2.png)](https://codeclimate.com/github/yiisoft/yii2)
-[![Reference Status](https://www.versioneye.com/php/yiisoft:yii2/reference_badge.svg)](https://www.versioneye.com/php/yiisoft:yii2/references)
+[![Code Climate](https://img.shields.io/codeclimate/github/yiisoft/yii2.svg)](https://codeclimate.com/github/yiisoft/yii2)
 
-DIRECTORY STRUCTURE
--------------------
+Installation
+------------
+
+- The minimum required PHP version of Yii is PHP 5.4.
+- It works best with PHP 7.
+- [Follow the Definitive Guide](https://www.yiiframework.com/doc-2.0/guide-start-installation.html)
+in order to get step by step instructions.
+
+Documentation
+-------------
+
+- A [Definitive Guide](https://www.yiiframework.com/doc/guide/2.0) and 
+a [Class Reference](https://www.yiiframework.com/doc/api/2.0) cover every detail
+of the framework.
+- There is a [PDF version](https://www.yiiframework.com/doc/download/yii-guide-2.0-en.pdf) of the Definitive Guide
+and a [Definitive Guide Mirror](http://stuff.cebe.cc/yii2docs/) which is updated every 15 minutes.
+- For Yii 1.1 users, there is [Upgrading from Yii 1.1](https://www.yiiframework.com/doc/guide/2.0/en/intro-upgrade-from-v1)
+to get an idea of what has changed in 2.0.
+
+Community
+---------
+
+- Participate in [discussions at forums](https://www.yiiframework.com/forum/).
+- [Community Slack](https://join.slack.com/t/yii/shared_invite/MjIxMjMxMTk5MTU1LTE1MDE3MDAwMzMtM2VkMTMyMjY1Ng) and [Chat in IRC](https://www.yiiframework.com/chat/).
+- Follow us on [Facebook](https://www.facebook.com/groups/yiitalk/), [Twitter](https://twitter.com/yiiframework)
+and [GitHub](https://github.com/yiisoft/yii2).
+- Check [other communities](https://github.com/yiisoft/yii2/wiki/communities).
+
+Contributing
+------------
+
+The framework is [Open Source](LICENSE.md) powered by [an excellent community](https://github.com/yiisoft/yii2/graphs/contributors).
+
+You may join us and:
+
+- [Report an issue](docs/internals/report-an-issue.md)
+- [Translate documentation or messages](docs/internals/translation-workflow.md)
+- [Give us feedback or start a design discussion](https://www.yiiframework.com/forum/index.php/forum/42-general-discussions-for-yii-20/)
+- [Contribute to the core code or fix bugs](docs/internals/git-workflow.md)
+- [Become a sponsor](#sponsoring)
+
+### Reporting Security issues
+
+Please refer to a [special page at the website](https://www.yiiframework.com/security/)
+describing proper workflow for security issue reports.
+
+### Directory Structure
 
 ```
-apps/                ready-to-use application templates
-    advanced/        a template suitable for building sophisticated Web applications
-    basic/           a template suitable for building simple Web applications
-    benchmark/       an application demonstrating the performance of Yii
 build/               internally used build tools
 docs/                documentation
-extensions/          extensions
 framework/           core framework code
 tests/               tests of the core framework code
 ```
 
+### Spreading the Word
 
-REQUIREMENTS
-------------
+Acknowledging or citing Yii 2 is as important as direct contributions.
 
-The minimum requirement by Yii is that your Web server supports PHP 5.4.
+**In presentations**
 
+If you are giving a presentation or talk featuring work that makes use of Yii 2 and would like to acknowledge it,
+we suggest using [our logo](https://www.yiiframework.com/logo/) on your title slide.
 
-DOCUMENTATION
--------------
+**In projects**
 
-A draft of the [Definitive Guide](docs/guide/README.md) is available.
+If you are using Yii 2 as part of an OpenSource project, a way to acknowledge it is to
+[use a special badge](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat) in your README:    
 
-API docs and a rendering of the definitive guide are currently
-available under the following urls:
+![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)
 
-- http://www.yiiframework.com/doc-2.0/ API and Definitive Guide (updated daily)
-- http://stuff.cebe.cc/yii2docs/ API and Definitive Guide (updated every 15 minutes)
-- http://stuff.cebe.cc/yii2-guide.pdf The PDF version of the Guide
+If your code is hosted at GitHub, you can place the following in your README.md file to get the badge:
 
-For 1.1 users, you may refer to [Upgrading from Yii 1.1](docs/guide/intro-upgrade-from-v1.md)
-to have a general idea of what has changed in 2.0.
+```
+[![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)
+```
 
+### Sponsoring
 
-HOW TO PARTICIPATE
-------------------
+Support this project by becoming a sponsor or a backer. 
 
-**Your participation to Yii 2 development is very welcome!**
-
-You may participate in the following ways:
-
-* [Report issues](https://github.com/yiisoft/yii2/issues)
-* [Give us feedback or start a design discussion](http://www.yiiframework.com/forum/index.php/forum/42-design-discussions-for-yii-20/)
-* Fix issues, develop features, write/polish documentation
-    - Before you start, please adopt an existing issue (labelled with "ready for adoption") or start a new one to avoid duplicated efforts.
-    - Please submit a merge request after you finish development.
-
-In order to make it easier we've prepared [special `yii2-dev` Composer package](https://github.com/yiisoft/yii2/blob/master/docs/internals/getting-started.md).
-
+[![OpenCollective sponsors](https://opencollective.com/yiisoft/sponsors/badge.svg)](https://opencollective.com/yiisoft) [![OpenCollective backers](https://opencollective.com/yiisoft/backers/badge.svg)](https://opencollective.com/yiisoft)

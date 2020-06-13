@@ -47,7 +47,7 @@ class TranslationController extends Controller
 
                 $errors = $this->checkFiles($translatedFilePath);
                 $diff = empty($errors) ? $this->getDiff($translatedFilePath, $sourceFilePath) : '';
-                if(!empty($diff)) {
+                if (!empty($diff)) {
                     $errors[] = 'Translation outdated.';
                 }
 
@@ -68,7 +68,7 @@ class TranslationController extends Controller
                 $translatedFilePath = $translationPath . '/' . $fileinfo->getFilename();
 
                 $errors = $this->checkFiles(null, $translatedFilePath);
-                if(!empty($errors)) {
+                if (!empty($errors)) {
                     $results[$fileinfo->getFilename()]['errors'] = $errors;
                 }
             }
@@ -83,7 +83,7 @@ class TranslationController extends Controller
     }
 
     /**
-     * Checks for files existence
+     * Checks for files existence.
      *
      * @param string $translatedFilePath
      * @param string $sourceFilePath
@@ -104,7 +104,7 @@ class TranslationController extends Controller
     }
 
     /**
-     * Getting DIFF from git
+     * Getting DIFF from git.
      *
      * @param string $translatedFilePath path pointing to translated file
      * @param string $sourceFilePath path pointing to original file
@@ -113,11 +113,11 @@ class TranslationController extends Controller
     protected function getDiff($translatedFilePath, $sourceFilePath)
     {
         $lastTranslationHash = shell_exec('git log -1 --format=format:"%H" -- ' . $translatedFilePath);
-        return shell_exec('git diff ' . $lastTranslationHash.'..HEAD -- ' . $sourceFilePath);
+        return shell_exec('git diff ' . $lastTranslationHash . '..HEAD -- ' . $sourceFilePath);
     }
 
     /**
-     * Adds all necessary HTML tags and classes to diff output
+     * Adds all necessary HTML tags and classes to diff output.
      *
      * @param string $diff DIFF
      * @return string highlighted DIFF
@@ -128,14 +128,11 @@ class TranslationController extends Controller
         foreach ($lines as $key => $val) {
             if (mb_substr($val, 0, 1, 'utf-8') === '@') {
                 $lines[$key] = '<span class="info">' . Html::encode($val) . '</span>';
-            }
-            else if (mb_substr($val, 0, 1, 'utf-8') === '+') {
+            } elseif (mb_substr($val, 0, 1, 'utf-8') === '+') {
                 $lines[$key] = '<ins>' . Html::encode($val) . '</ins>';
-            }
-            else if (mb_substr($val, 0, 1, 'utf-8') === '-') {
+            } elseif (mb_substr($val, 0, 1, 'utf-8') === '-') {
                 $lines[$key] = '<del>' . Html::encode($val) . '</del>';
-            }
-            else {
+            } else {
                 $lines[$key] = Html::encode($val);
             }
         }

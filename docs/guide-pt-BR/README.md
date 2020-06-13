@@ -3,7 +3,6 @@ Guia Definitivo para Yii 2.0
 
 Esse tutorial está disponível sob os [termos da documentação do Yii](http://www.yiiframework.com/doc/terms/).
 
-
 Todos os Direitos Reservados.
 
 2014 (c) Yii Software LLC.
@@ -13,47 +12,48 @@ Introdução
 ----------
 
 * [Sobre o Yii](intro-yii.md)
-* [Migrando a partir da versão 1.1.*](intro-upgrade-from-v1.md)
+* [Migrando a partir da versão 1.1](intro-upgrade-from-v1.md)
 
 
 Primeiros Passos
 ----------------
 
+* [O que você precisa saber](start-prerequisites.md)
 * [Instalando o Yii](start-installation.md)
 * [Executando Aplicações](start-workflow.md)
-* [Como Fazer um "Hello World"](start-hello.md)
+* [Dizendo "Olá!"](start-hello.md)
 * [Trabalhando com Formulários](start-forms.md)
-* [Trabalhando com Banco de Dados](start-databases.md)
+* [Trabalhando com Bancos de Dados](start-databases.md)
 * [Gerando Código com Gii](start-gii.md)
-* [Visão Geral](start-looking-ahead.md)
+* [Seguindo em Frente](start-looking-ahead.md)
 
 
-Estrutura de uma Aplicação
+Estrutura da Aplicação
 --------------------------
 
 * [Visão Geral](structure-overview.md)
 * [Scripts de Entrada](structure-entry-scripts.md)
 * [Aplicações](structure-applications.md)
 * [Componentes de Aplicação](structure-application-components.md)
-* [Controllers (Controladores)](structure-controllers.md)
-* [Models (Modelos)](structure-models.md)
-* [Views (Visões)](structure-views.md)
+* [Controladores (Controllers)](structure-controllers.md)
+* [Modelos (Models)](structure-models.md)
+* [Visões (Views)](structure-views.md)
 * [Módulos](structure-modules.md)
 * [Filtros](structure-filters.md)
 * [Widgets](structure-widgets.md)
-* [Asset Bundles](structure-assets.md)
+* [Assets](structure-assets.md)
 * [Extensões](structure-extensions.md)
 
 
-Tratamento de Requisições
+Tratando Requisições
 -------------------------
 
-* **TBD** [Bootstrapping](runtime-bootstrapping.md)
-* **TBD** [Rotas](runtime-routing.md)
-* **TBD** [Requisições](runtime-requests.md)
-* **TBD** [Respostas](runtime-responses.md)
-* **TBD** [Sessões e Cookies](runtime-sessions-cookies.md)
-* [Análise e Geração de URLs](runtime-url-handling.md)
+* [Visão Geral](runtime-overview.md)
+* [Preparação do Ambiente (Bootstrapping)](runtime-bootstrapping.md)
+* [Roteamento e Criação de URL](runtime-routing.md)
+* [Requisições](runtime-requests.md)
+* [Respostas](runtime-responses.md)
+* [Sessões e Cookies](runtime-sessions-cookies.md)
 * [Tratamento de Erros](runtime-handling-errors.md)
 * [Gerenciamento de Logs](runtime-logging.md)
 
@@ -64,10 +64,10 @@ Conceitos Chave
 * [Componentes](concept-components.md)
 * [Propriedades](concept-properties.md)
 * [Eventos](concept-events.md)
-* [Behaviors (Comportamentos)](concept-behaviors.md)
+* [Comportamentos](concept-behaviors.md)
 * [Configurações](concept-configurations.md)
-* [Aliases](concept-aliases.md)
-* [Autoloading de Classes](concept-autoloading.md)
+* [Apelidos (Aliases)](concept-aliases.md)
+* [Carregamento Automático de Classes (Autoloading)](concept-autoloading.md)
 * [Service Locator](concept-service-locator.md)
 * [Container de Injeção de Dependência](concept-di-container.md)
 
@@ -75,32 +75,34 @@ Conceitos Chave
 Trabalhando com Banco de Dados
 ------------------------------
 
-* [Data Access Objects (DAO, Objeto de Acesso a Dados)](db-dao.md) - Estabelecendo uma conexão com o Banco de Dados, consultas básicas, transações e manipulação do esquema
-* [Query Builder (Construtor de Consulta)](db-query-builder.md) - Consultando o banco de dados usando uma camada de abstração simples
-* [Active Record](db-active-record.md) - Sobre "Active Record ORM" (Mapeamento Objeto-Relacional), recuperando e manipulando registros e definindo relacionamentos
-* [Migrations (Migrações)](db-migrations.md) - Controle de versão do bancos de dados em um ambiente de desenvolvimento em equipe
-* **TBD** [Sphinx](db-sphinx.md)
-* **TBD** [Redis](db-redis.md)
-* **TBD** [MongoDB](db-mongodb.md)
-* **TBD** [ElasticSearch](db-elastic-search.md)
+* [Objetos de Acesso a Dados - (Database Access Objects)](db-dao.md): Conectando a um banco de dados, consultas básicas, transações e manipulação de esquema
+* [Construtor de Consulta (Query Builder)](db-query-builder.md): Consultando o banco de dados usando uma camada de abstração simples
+* [Active Record](db-active-record.md): Sobre o Active Record ORM, recuperando e manipulando registros e definindo relacionamentos
+* [Migrações (Migrations)](db-migrations.md): Aplica controle de versão para seus banco de dados em um ambiente de desenvolvimento em equipe
+* [Sphinx](https://www.yiiframework.com/extension/yiisoft/yii2-sphinx/doc/guide)
+* [Redis](https://www.yiiframework.com/extension/yiisoft/yii2-redis/doc/guide)
+* [MongoDB](https://www.yiiframework.com/extension/yiisoft/yii2-mongodb/doc/guide)
+* [ElasticSearch](https://www.yiiframework.com/extension/yiisoft/yii2-elasticsearch/doc/guide)
 
 
 Coletando Dados de Usuários
 ---------------------------
 
-* [Criando um Formulário](input-forms.md)
-* [Validação de Dados](input-validation.md)
-* **TBD** [Upload de Arquivos](input-file-upload.md)
-* **TBD** [Coletando Dados de Múltiplos Modelos](input-multiple-models.md)
+* [Criando Formulários](input-forms.md)
+* [Validando Dados](input-validation.md)
+* [Recebendo Arquivos (Upload)](input-file-upload.md)
+* [Coletando Dados Tabulares](input-tabular-input.md)
+* [Coletando Dados para Múltiplos Models](input-multiple-models.md)
+* [Extendendo o ActiveForm no Client Side](input-form-javascript.md)
 
 
 Exibindo Dados
 ---------------
 
-* **TBD** [Formatando Dados](output-formatting.md)
-* **TBD** [Paginação](output-pagination.md)
-* **TBD** [Ordenação](output-sorting.md)
-* [Data Providers (Provedores de Dados)](output-data-providers.md)
+* [Formatação de Dados](output-formatting.md)
+* [Paginação](output-pagination.md)
+* [Ordenação](output-sorting.md)
+* [Provedores de Dados (Data Providers)](output-data-providers.md)
 * [Widgets de Dados](output-data-widgets.md)
 * [Trabalhando com Client Scripts](output-client-scripts.md)
 * [Temas](output-theming.md)
@@ -109,11 +111,13 @@ Exibindo Dados
 Segurança
 --------
 
+* [Visão Geral](security-overview.md)
 * [Autenticação](security-authentication.md)
 * [Autorização](security-authorization.md)
 * [Trabalhando com Senhas](security-passwords.md)
-* **TBD** [Auth Clients](security-auth-clients.md)
-* **TBD** [Melhores Práticas](security-best-practices.md)
+* [Criptografia](security-cryptography.md)
+* [Auth Clients](https://www.yiiframework.com/extension/yiisoft/yii2-authclient/doc/guide)
+* [Melhores Práticas](security-best-practices.md)
 
 
 Cache
@@ -126,16 +130,16 @@ Cache
 * [Cache HTTP](caching-http.md)
 
 
-Web Services com RESTful 
+Web Services RESTful
 ------------------------
 
-* [Visão Inicial](rest-quick-start.md)
+* [Introdução](rest-quick-start.md)
 * [Recursos](rest-resources.md)
-* [Controllers (Controladores)](rest-controllers.md)
-* [Rotas](rest-routing.md)
-* [Formatando Respostas](rest-response-formatting.md)
+* [Controladores (Controllers)](rest-controllers.md)
+* [Roteamento](rest-routing.md)
+* [Formatação de Respostas](rest-response-formatting.md)
 * [Autenticação](rest-authentication.md)
-* [Rate Limiting](rest-rate-limiting.md)
+* [Taxa de Limite de Acessos](rest-rate-limiting.md)
 * [Versionamento](rest-versioning.md)
 * [Tratamento de Erros](rest-error-handling.md)
 
@@ -143,68 +147,59 @@ Web Services com RESTful
 Ferramentas de Desenvolvimento
 ------------------------------
 
-* [Barra de Ferramentas de Depuração e Depurador](tool-debugger.md)
-* [Gerando Código usando o Gii](tool-gii.md)
-* **TBD** [Gerando Documentação da API](tool-api-doc.md)
+* [Barra de Ferramentas de Depuração e Depurador](https://www.yiiframework.com/extension/yiisoft/yii2-debug/doc/guide)
+* [Gerando Código usando o Gii](https://www.yiiframework.com/extension/yiisoft/yii2-gii/doc/guide)
+* [Gerando Documentação da API](https://www.yiiframework.com/extension/yiisoft/yii2-apidoc)
 
 
 Testes
 ------
 
 * [Visão Geral](test-overview.md)
-* [Configuração do ambiente de testes](test-endvironment-setup.md)
+* [Configuração do ambiente de testes](test-environment-setup.md)
 * [Testes Unitários](test-unit.md)
 * [Testes Funcionais](test-functional.md)
 * [Testes de Aceitação](test-acceptance.md)
 * [Fixtures](test-fixtures.md)
 
 
-Estendendo o Yii
-----------------
-
-* [Criando Extensões](extend-creating-extensions.md)
-* [Customizando o Código do Núcleo](extend-customizing-core.md)
-* [Usando Bibliotecas de Terceiros](extend-using-libs.md)
-* **TBD** [Usando o Yii em Sistemas de Terceiros](extend-embedding-in-others.md)
-* **TBD** [Usando Yii 1.1 e 2.0 juntos](extend-using-v1-v2.md)
-* [Usando o Composer](extend-using-composer.md)
-
-
 Tópicos Especiais
 -----------------
 
-* [Modelo de Aplicação Avançada](tutorial-advanced-app.md)
+* [Template Avançado de Projetos](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide-pt-BR)
 * [Construindo uma Aplicação a Partir do Zero](tutorial-start-from-scratch.md)
-* [Comandos do Console](tutorial-console.md)
-* [Ferramentas de Validação Embutidas](tutorial-core-validators.md)
+* [Comandos de Console](tutorial-console.md)
+* [Validadores Nativos](tutorial-core-validators.md)
+* [Docker](tutorial-docker.md)
 * [Internacionalização](tutorial-i18n.md)
-* [Enviando E-mails](tutorial-mailing.md)
-* [Ajustes no Desempenho](tutorial-performance-tuning.md)
-* **TBD** [Ambiente de Hospedagem Compartilhada](tutorial-shared-hosting.md)
-* [Ferramentas de Template](tutorial-template-engines.md)
-* [Utilização com Códigos de Terceiros](tutorial-yii-integration.md)
+* [Envio de E-mails](tutorial-mailing.md)
+* [Ajustes de Desempenho](tutorial-performance-tuning.md)
+* [Ambiente de Hospedagem Compartilhada](tutorial-shared-hosting.md)
+* [Motores de Template (Template Engines)](tutorial-template-engines.md)
+* [Trabalhando com Código de Terceiros](tutorial-yii-integration.md)
+* [Usando Yii como um Microframework](tutorial-yii-as-micro-framework.md)
+
 
 
 Widgets
 -------
 
-* GridView
-* ListView
-* DetailView
-* ActiveForm
-* Pjax
-* Menu
-* LinkPager
-* LinkSorter
-* [Widgets do Bootstrap](bootstrap-widgets.md)
-* [Widgets do Jquery UI](jui-widgets.md)
+* [GridView](https://www.yiiframework.com/doc-2.0/yii-grid-gridview.html)
+* [ListView](https://www.yiiframework.com/doc-2.0/yii-widgets-listview.html)
+* [DetailView](https://www.yiiframework.com/doc-2.0/yii-widgets-detailview.html)
+* [ActiveForm](https://www.yiiframework.com/doc-2.0/guide-input-forms.html#activerecord-based-forms-activeform)
+* [Pjax](https://www.yiiframework.com/doc-2.0/yii-widgets-pjax.html)
+* [Menu](https://www.yiiframework.com/doc-2.0/yii-widgets-menu.html)
+* [LinkPager](https://www.yiiframework.com/doc-2.0/yii-widgets-linkpager.html)
+* [LinkSorter](https://www.yiiframework.com/doc-2.0/yii-widgets-linksorter.html)
+* [Widgets Bootstrap](https://www.yiiframework.com/extension/yiisoft/yii2-bootstrap/doc/guide)
+* [Widgets jQuery UI](https://www.yiiframework.com/extension/yiisoft/yii2-jui/doc/guide)
 
 
-Helpers
+Helpers - Funções Auxiliares
 -------
 
 * [Visão Geral](helper-overview.md)
-* **TBD** [ArrayHelper](helper-array.md)
-* **TBD** [Html](helper-html.md)
-* **TBD** [Url](helper-url.md)
-* **TBD** [Security](helper-security.md)
+* [ArrayHelper](helper-array.md)
+* [Html](helper-html.md)
+* [Url](helper-url.md)

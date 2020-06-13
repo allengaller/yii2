@@ -19,7 +19,7 @@ Yii 2.0 fully embraces [Composer](https://getcomposer.org/), the de facto PHP pa
 of the core framework, as well as extensions, are handled through Composer. Please refer to
 the [Installing Yii](start-installation.md) section to learn how to install Yii 2.0. If you want to
 create new extensions, or turn your existing 1.1 extensions into 2.0-compatible extensions, please refer to
-the [Creating Extensions](extend-creating-extensions.md) section of the guide.
+the [Creating Extensions](structure-extensions.md#creating-extensions) section of the guide.
 
 
 PHP Requirements
@@ -29,15 +29,15 @@ Yii 2.0 requires PHP 5.4 or above, which is a huge improvement over PHP version 
 As a result, there are many differences on the language level that you should pay attention to.
 Below is a summary of the major changes regarding PHP:
 
-- [Namespaces](http://php.net/manual/en/language.namespaces.php).
-- [Anonymous functions](http://php.net/manual/en/functions.anonymous.php).
+- [Namespaces](https://secure.php.net/manual/en/language.namespaces.php).
+- [Anonymous functions](https://secure.php.net/manual/en/functions.anonymous.php).
 - Short array syntax `[...elements...]` is used instead of `array(...elements...)`.
 - Short echo tags `<?=` are used in view files. This is safe to use starting from PHP 5.4.
-- [SPL classes and interfaces](http://php.net/manual/en/book.spl.php).
-- [Late Static Bindings](http://php.net/manual/en/language.oop5.late-static-bindings.php).
-- [Date and Time](http://php.net/manual/en/book.datetime.php).
-- [Traits](http://php.net/manual/en/language.oop5.traits.php).
-- [intl](http://php.net/manual/en/book.intl.php). Yii 2.0 makes use of the `intl` PHP extension
+- [SPL classes and interfaces](https://secure.php.net/manual/en/book.spl.php).
+- [Late Static Bindings](https://secure.php.net/manual/en/language.oop5.late-static-bindings.php).
+- [Date and Time](https://secure.php.net/manual/en/book.datetime.php).
+- [Traits](https://secure.php.net/manual/en/language.oop5.traits.php).
+- [intl](https://secure.php.net/manual/en/book.intl.php). Yii 2.0 makes use of the `intl` PHP extension
   to support internationalization features.
 
 
@@ -56,25 +56,25 @@ class loader.)
 Component and Object
 --------------------
 
-Yii 2.0 breaks the `CComponent` class in 1.1 into two classes: [[yii\base\Object]] and [[yii\base\Component]].
-The [[yii\base\Object|Object]] class is a lightweight base class that allows defining [object properties](concept-properties.md)
-via getters and setters. The [[yii\base\Component|Component]] class extends from [[yii\base\Object|Object]] and supports
+Yii 2.0 breaks the `CComponent` class in 1.1 into two classes: [[yii\base\BaseObject]] and [[yii\base\Component]].
+The [[yii\base\BaseObject|BaseObject]] class is a lightweight base class that allows defining [object properties](concept-properties.md)
+via getters and setters. The [[yii\base\Component|Component]] class extends from [[yii\base\BaseObject|BaseObject]] and supports
 [events](concept-events.md) and [behaviors](concept-behaviors.md).
 
 If your class does not need the event or behavior feature, you should consider using
-[[yii\base\Object|Object]] as the base class. This is usually the case for classes that represent basic
+[[yii\base\BaseObject|BaseObject]] as the base class. This is usually the case for classes that represent basic
 data structures.
 
 
 Object Configuration
 --------------------
 
-The [[yii\base\Object|Object]] class introduces a uniform way of configuring objects. Any descendant class
-of [[yii\base\Object|Object]] should declare its constructor (if needed) in the following way so that
+The [[yii\base\BaseObject|BaseObject]] class introduces a uniform way of configuring objects. Any descendant class
+of [[yii\base\BaseObject|BaseObject]] should declare its constructor (if needed) in the following way so that
 it can be properly configured:
 
 ```php
-class MyClass extends \yii\base\Object
+class MyClass extends \yii\base\BaseObject
 {
     public function __construct($param1, $param2, $config = [])
     {
@@ -94,7 +94,7 @@ class MyClass extends \yii\base\Object
 
 In the above, the last parameter of the constructor must take a configuration array
 that contains name-value pairs for initializing the properties at the end of the constructor.
-You can override the [[yii\base\Object::init()|init()]] method to do initialization work that should be done after
+You can override the [[yii\base\BaseObject::init()|init()]] method to do initialization work that should be done after
 the configuration has been applied.
 
 By following this convention, you will be able to create and configure new objects
@@ -108,7 +108,7 @@ $object = Yii::createObject([
 ], [$param1, $param2]);
 ```
 
-More details about configurations can be found in the [Object Configurations](concept-configurations.md) section.
+More details about configurations can be found in the [Configurations](concept-configurations.md) section.
 
 
 Events
@@ -143,13 +143,13 @@ supported in most places in the Yii core code. For example, [[yii\caching\FileCa
 both a path alias and a normal directory path.
 
 A path alias is also closely related to a class namespace. It is recommended that a path
-alias be defined for each root namespace, thereby allowing you to use Yii the class autoloader without
+alias be defined for each root namespace, thereby allowing you to use Yii class autoloader without
 any further configuration. For example, because `@yii` refers to the Yii installation directory,
 a class like `yii\web\Request` can be autoloaded. If you use a third party library,
 such as the Zend Framework, you may define a path alias `@Zend` that refers to that framework's installation
 directory. Once you've done that, Yii will be able to autoload any class in that Zend Framework library, too.
 
-More on path aliases can be found in the [Path Aliases](concept-aliases.md) section.
+More on path aliases can be found in the [Aliases](concept-aliases.md) section.
 
 
 Views
@@ -209,7 +209,7 @@ To learn more details about models, please refer to the [Models](structure-model
 Controllers
 -----------
 
-Yii 2.0 uses [[yii\web\Controller]] as the base controller class, similar to `CWebController` in Yii 1.1.
+Yii 2.0 uses [[yii\web\Controller]] as the base controller class, which is similar to `CController` in Yii 1.1.
 [[yii\base\Action]] is the base class for action classes.
 
 The most obvious impact of these changes on your code is that a controller action should return the content
@@ -292,7 +292,7 @@ Please refer to the [Console Commands](tutorial-console.md) section for more det
 I18N
 ----
 
-Yii 2.0 removes the built-in date formatter and number formatter pieces in favor of the [PECL intl PHP module](http://pecl.php.net/package/intl).
+Yii 2.0 removes the built-in date formatter and number formatter pieces in favor of the [PECL intl PHP module](https://pecl.php.net/package/intl).
 
 Message translation is now performed via the `i18n` application component.
 This component manages a set of message sources, which allows you to use different message
@@ -471,7 +471,7 @@ Active Record Behaviors
 
 In 2.0, we have dropped the base behavior class `CActiveRecordBehavior`. If you want to create an Active Record Behavior,
 you will have to extend directly from `yii\base\Behavior`. If the behavior class needs to respond to some events
-of the owner, you have to override the `events()` method like the following,
+of the owner, you have to override the `events()` method like the following:
 
 ```php
 namespace app\components;
@@ -503,9 +503,9 @@ User and IdentityInterface
 
 The `CWebUser` class in 1.1 is now replaced by [[yii\web\User]], and there is no more
 `CUserIdentity` class. Instead, you should implement the [[yii\web\IdentityInterface]] which
-is much more straightforward to use. The advanced application template provides such an example.
+is much more straightforward to use. The advanced project template provides such an example.
 
-Please refer to the [Authentication](security-authentication.md), [Authorization](security-authorization.md), and [Advanced Application Technique](tutorial-advanced-app.md) sections for more details.
+Please refer to the [Authentication](security-authentication.md), [Authorization](security-authorization.md), and [Advanced Project Template](https://www.yiiframework.com/extension/yiisoft/yii2-app-advanced/doc/guide) sections for more details.
 
 
 URL Management
@@ -524,11 +524,17 @@ the same goal.
 ]
 ```
 
-Please refer to the [Url manager docs](runtime-url-handling.md) section for more details.
+Please refer to the [Url manager docs](runtime-routing.md) section for more details.
+
+An important change in the naming convention for routes is that camel case names of controllers
+and actions are now converted to lower case where each word is separated by a hypen, e.g. the controller
+id for the `CamelCaseController` will be `camel-case`.
+See the section about [controller IDs](structure-controllers.md#controller-ids) and [action IDs](structure-controllers.md#action-ids) for more details.
+
 
 Using Yii 1.1 and 2.x together
 ------------------------------
 
 If you have legacy Yii 1.1 code that you want to use together with Yii 2.0, please refer to
-the [Using Yii 1.1 and 2.0 Together](tutorial-yii-integration.md) section.
+the [Using Yii 1.1 and 2.0 Together](tutorial-yii-integration.md#using-both-yii2-yii1) section.
 

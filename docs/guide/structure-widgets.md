@@ -14,17 +14,17 @@ use yii\jui\DatePicker;
 ```
 
 There are a good number of widgets bundled with Yii, such as [[yii\widgets\ActiveForm|active form]],
-[[yii\widgets\Menu|menu]], [jQuery UI widgets](widget-jui.md), [Twitter Bootstrap widgets](widget-bootstrap.md).
+[[yii\widgets\Menu|menu]], [jQuery UI widgets](https://www.yiiframework.com/extension/yiisoft/yii2-jui), [Twitter Bootstrap widgets](https://www.yiiframework.com/extension/yiisoft/yii2-bootstrap).
 In the following, we will introduce the basic knowledge about widgets. Please refer to the class API documentation
 if you want to learn about the usage of a particular widget.
 
 
-## Using Widgets <a name="using-widgets"></a>
+## Using Widgets <span id="using-widgets"></span>
 
 Widgets are primarily used in [views](structure-views.md). You can call the [[yii\base\Widget::widget()]] method
 to use a widget in a view. The method takes a [configuration](concept-configurations.md) array for initializing
 the widget and returns the rendering result of the widget. For example, the following code inserts a date picker
-widget which is configured to use Russian language and keep the input in the `from_date` attribute of `$model`.
+widget which is configured to use the Russian language and keep the input in the `from_date` attribute of `$model`.
 
 ```php
 <?php
@@ -34,9 +34,7 @@ use yii\jui\DatePicker;
     'model' => $model,
     'attribute' => 'from_date',
     'language' => 'ru',
-    'clientOptions' => [
-        'dateFormat' => 'yy-mm-dd',
-    ],
+    'dateFormat' => 'php:Y-m-d',
 ]) ?>
 ```
 
@@ -68,11 +66,32 @@ use yii\helpers\Html;
 Note that unlike [[yii\base\Widget::widget()]] which returns the rendering result of a widget, the method
 [[yii\base\Widget::begin()]] returns an instance of the widget which you can use to build the widget content.
 
+> Note: Some widgets will use [output buffering](https://secure.php.net/manual/en/book.outcontrol.php) to adjust the enclosed
+> content when [[yii\base\Widget::end()]] is called. For this reason calling [[yii\base\Widget::begin()]] and
+> [[yii\base\Widget::end()]] is expected to happen in the same view file.
+> Not following this rule may result in unexpected output.
 
-## Creating Widgets <a name="creating-widgets"></a>
+
+### Configuring global defaults
+
+Global defaults for a widget type could be configured via DI container:
+
+```php
+\Yii::$container->set('yii\widgets\LinkPager', ['maxButtonCount' => 5]);
+```
+
+See ["Practical Usage" section in Dependency Injection Container guide](concept-di-container.md#practical-usage) for
+details.
+
+
+## Creating Widgets <span id="creating-widgets"></span>
+
+Widget can be created in either of two different ways depending on the requirement.
+
+### 1: Utilizing `widget()` method
 
 To create a widget, extend from [[yii\base\Widget]] and override the [[yii\base\Widget::init()]] and/or
-[[yii\base\Widget::run()]] methods. Usually, the `init()` method should contain the code that normalizes the widget
+[[yii\base\Widget::run()]] methods. Usually, the `init()` method should contain the code that initializes the widget
 properties, while the `run()` method should contain the code that generates the rendering result of the widget.
 The rendering result may be directly "echoed" or returned as a string by `run()`.
 
@@ -113,6 +132,21 @@ use app\components\HelloWidget;
 <?= HelloWidget::widget(['message' => 'Good morning']) ?>
 ```
 
+
+Sometimes, a widget may need to render a big chunk of content. While you can embed the content within the `run()`
+method, a better approach is to put it in a [view](structure-views.md) and call [[yii\base\Widget::render()]] to
+render it. For example,
+
+```php
+public function run()
+{
+    return $this->render('hello');
+}
+```
+
+### 2: Utilizing `begin()` and `end()` methods
+
+This is similar to above one with minor difference.
 Below is a variant of `HelloWidget` which takes the content enclosed within the `begin()` and `end()` calls,
 HTML-encodes it and then displays it.
 
@@ -138,7 +172,7 @@ class HelloWidget extends Widget
 }
 ```
 
-As you can see, PHP output buffer is started in `init()` so that any output between the calls of `init()` and `run()`
+As you can see, PHP's output buffer is started in `init()` so that any output between the calls of `init()` and `run()`
 can be captured, processed and returned in `run()`.
 
 > Info: When you call [[yii\base\Widget::begin()]], a new instance of the widget will be created and the `init()` method
@@ -153,20 +187,15 @@ use app\components\HelloWidget;
 ?>
 <?php HelloWidget::begin(); ?>
 
-    content that may contain <tag>'s
+    sample content that may contain one or more <strong>HTML</strong> <pre>tags</pre>
+
+    If this content grows too big, use sub views
+
+    For e.g.
+
+    <?php echo $this->render('viewfile'); // Note: here render() method is of class \yii\base\View as this part of code is within view file and not in Widget class file ?>
 
 <?php HelloWidget::end(); ?>
-```
-
-Sometimes, a widget may need to render a big chunk of content. While you can embed the content within the `run()`
-method, a better approach is to put it in a [view](structure-views.md) and call [[yii\base\Widget::render()]] to
-render it. For example,
-
-```php
-public function run()
-{
-    return $this->render('hello');
-}
 ```
 
 By default, views for a widget should be stored in files in the `WidgetPath/views` directory, where `WidgetPath`
@@ -175,7 +204,7 @@ stands for the directory containing the widget class file. Therefore, the above 
 the [[yii\base\Widget::getViewPath()]] method to customize the directory containing the widget view files.
 
 
-## Best Practices <a name="best-practices"></a>
+## Best Practices <span id="best-practices"></span>
 
 Widgets are an object-oriented way of reusing view code.
 
@@ -184,9 +213,10 @@ classes and keep presentation in [views](structure-views.md).
 
 Widgets should be designed to be self-contained. That is, when using a widget, you should be able to just drop
 it in a view without doing anything else. This could be tricky if a widget requires external resources, such as
-CSS, JavaScript, images, etc. Fortunately, Yii provides the support for [asset bundles](structure-asset-bundles.md),
+CSS, JavaScript, images, etc. Fortunately, Yii provides the support for [asset bundles](structure-assets.md),
 which can be utilized to solve the problem.
 
 When a widget contains view code only, it is very similar to a [view](structure-views.md). In fact, in this case,
 their only difference is that a widget is a redistributable class, while a view is just a plain PHP script
-that you would prefer to keep it within your application.
+that you would prefer to keep within your application.
+

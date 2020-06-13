@@ -1,12 +1,14 @@
 Aliases
 =======
 
-Aliases are used to represent file paths or URLs so that you don't have to hard-code absolute paths or URLs in your project. An alias must start with the `@` character to be differentiated from normal file paths and URLs. Yii has many pre-defined aliases already available. 
-For example, the alias `@yii` represents the installation path of the Yii framework; `@web` represents
-the base URL for the currently running Web application.
+Aliases are used to represent file paths or URLs so that you don't have to hard-code absolute paths or URLs in your
+project. An alias must start with the `@` character to be differentiated from normal file paths and URLs. Alias defined
+without leading `@` will be prefixed with `@` character.
 
+Yii has many pre-defined aliases already available. For example, the alias `@yii` represents the installation path of
+the Yii framework; `@web` represents the base URL for the currently running Web application.
 
-Defining Aliases <a name="defining-aliases"></a>
+Defining Aliases <span id="defining-aliases"></span>
 ----------------
 
 You can define an alias for a file path or URL by calling [[Yii::setAlias()]]:
@@ -17,6 +19,9 @@ Yii::setAlias('@foo', '/path/to/foo');
 
 // an alias of a URL
 Yii::setAlias('@bar', 'http://www.example.com');
+
+// an alias of a concrete file that contains a \foo\Bar class
+Yii::setAlias('@foo/Bar.php', '/definitely/not/foo/Bar.php');
 ```
 
 > Note: The file path or URL being aliased may *not* necessarily refer to an existing file or resource.
@@ -48,7 +53,7 @@ return [
 ```
 
 
-Resolving Aliases <a name="resolving-aliases"></a>
+Resolving Aliases <span id="resolving-aliases"></span>
 -----------------
 
 You can call [[Yii::getAlias()]] to resolve a root alias into the file path or URL it represents.
@@ -80,7 +85,7 @@ Yii::getAlias('@foo/bar/file.php');   // displays: /path2/bar/file.php
 If `@foo/bar` is not defined as a root alias, the last statement would display `/path/to/foo/bar/file.php`.
 
 
-Using Aliases <a name="using-aliases"></a>
+Using Aliases <span id="using-aliases"></span>
 -------------
 
 Aliases are recognized in many places in Yii without needing to call [[Yii::getAlias()]] to convert
@@ -99,23 +104,28 @@ $cache = new FileCache([
 Please pay attention to the API documentation to see if a property or method parameter supports aliases.
 
 
-Predefined Aliases <a name="predefined-aliases"></a>
+Predefined Aliases <span id="predefined-aliases"></span>
 ------------------
 
 Yii predefines a set of aliases to easily reference commonly used file paths and URLs:
 
-- `@yii`, the directory where the `BaseYii.php` file is located (also called the framework directory)
-- `@app`, the [[yii\base\Application::basePath|base path]] of the currently running application
-- `@runtime`, the [[yii\base\Application::runtimePath|runtime path]] of the currently running application
-- `@vendor`, the [[yii\base\Application::vendorPath|Composer vendor directory]]
-- `@webroot`, the Web root directory of the currently running Web application
-- `@web`, the base URL of the currently running Web application
+- `@yii`, the directory where the `BaseYii.php` file is located (also called the framework directory).
+- `@app`, the [[yii\base\Application::basePath|base path]] of the currently running application.
+- `@runtime`, the [[yii\base\Application::runtimePath|runtime path]] of the currently running application. Defaults to `@app/runtime`.
+- `@webroot`, the Web root directory of the currently running Web application. It is determined based on the directory
+  containing the [entry script](structure-entry-scripts.md).
+- `@web`, the base URL of the currently running Web application. It has the same value as [[yii\web\Request::baseUrl]].
+- `@vendor`, the [[yii\base\Application::vendorPath|Composer vendor directory]]. Defaults to `@app/vendor`.
+- `@bower`, the root directory that contains [bower packages](http://bower.io/). Defaults to `@vendor/bower`.
+- `@npm`, the root directory that contains [npm packages](https://www.npmjs.org/). Defaults to `@vendor/npm`.
 
-The `@yii` alias is defined when you include the `Yii.php` file in your [entry script](structure-entry-scripts.md). The rest of the aliases are defined in the application constructor when applying the application
+The `@yii` alias is defined when you include the `Yii.php` file in your [entry script](structure-entry-scripts.md).
+The rest of the aliases are defined in the application constructor when applying the application
 [configuration](concept-configurations.md).
 
+> Note: `@web` and `@webroot` aliases as their descriptions indicate are defined within [[yii\web\Application|Web application]] and therefore are not available for [[yii\console\Application|Console application]] by default.
 
-Extension Aliases <a name="extension-aliases"></a>
+Extension Aliases <span id="extension-aliases"></span>
 -----------------
 
 An alias is automatically defined for each [extension](structure-extensions.md) that is installed via Composer.
